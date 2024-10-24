@@ -64,15 +64,13 @@ function ChatArea() {
         {/* chat area is here */}
 
         <div className='flex flex-col p-3 gap-2'>
- {/*className={`p-2 rounded-lg ${message.sender == 'user' ? "bg-blue-500 self-end" : "bg-gray-400 self-start"}`}*/}
+            {/*className={`p-2 rounded-lg ${message.sender == 'user' ? "bg-blue-500 self-end" : "bg-gray-400 self-start"}`}*/}
             {messages.map((message,index)=>(
               <div
               key={index}
-             className={`p-2 rounded-lg bg-[#676464] ${message.sender=='user' ? 'self-end' : 'self-start'}`}
+              className={`p-2 rounded-lg bg-[#676464] ${message.sender=='user' ? 'self-end' : 'self-start'}`}
               >
-
                 {message.msg}
-                
               </div>
 
             ) )}

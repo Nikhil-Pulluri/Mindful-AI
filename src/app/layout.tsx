@@ -1,39 +1,44 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
-
-
+"use client";
+import localFont from 'next/font/local';
+import './globals.css';
+import { useState } from "react";
 
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+  src: './fonts/GeistVF.woff',
+  variable: '--font-geist-sans',
+  weight: '100 900',
 });
 const geistMono = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+  src: './fonts/GeistVF.woff',
+  variable: '--font-geist-mono',
+  weight: '100 900',
 });
 
-export const metadata: Metadata = {
-  title: "Lnding",
-  description: "Landing Page here",
-};
+
+
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
-  return(
+
+  const [theme, setTheme] = useState('dark')
+
+  const toggle = () => {
+
+    setTheme((prev) => (prev==='dark' ? 'light' : 'dark'))
+  }
+
+  return (
     <html lang="en">
-    <body className="dark">
-      {children}
+      <body className={`${theme}`}>
+        {children}
 
-    </body>
-
+        <div className={`fixed top-[3%] left-[85%] cursor-pointer ${theme === 'dark' ? 'text-white' : 'text-black'}`} onClick={toggle}>
+          {theme === 'dark' ? 'light' : 'dark'}
+        </div>
+      </body>
     </html>
-      
-    
-  )
+  );
 }
