@@ -5,6 +5,7 @@ import { useState } from 'react'
 // import Providers from './components/Providers';
 import React, { ReactNode } from 'react'
 import { SessionProvider } from 'next-auth/react'
+import { UserProvider } from '@/context/userContext'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -31,12 +32,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${theme}`}>
-        <SessionProvider>
-          {children}
-          <div className={`fixed top-[3%] left-[85%] cursor-pointer ${theme === 'dark' ? 'text-white' : 'text-black'}`} onClick={toggle}>
-            {theme === 'dark' ? 'light' : 'dark'}
-          </div>
-        </SessionProvider>
+        <UserProvider>
+          <SessionProvider>
+            {children}
+            {/* <div className={`fixed top-[3%] left-[85%] cursor-pointer ${theme === 'dark' ? 'text-white' : 'text-black'}`} onClick={toggle}>
+              {theme === 'dark' ? 'light' : 'dark'}
+            </div> */}
+          </SessionProvider>
+        </UserProvider>
       </body>
     </html>
   )

@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useUser } from '@/context/userContext'
 
 interface LoginProps {
   toggleMode: () => void
@@ -18,12 +19,20 @@ interface LoginProps {
 export function Login({ toggleMode }: LoginProps) {
   const { data: session } = useSession()
   // const router = useRouter()
+  const { user, setUser } = useUser()
 
   useEffect(() => {
-    if (session?.user) {
-      console.log(session)
+    if (session && session.user) {
+      const userData = {
+        name: session.user.name ?? '',
+        email: session.user.email ?? '',
+      }
+
+      console.log(userData)
+
+      setUser(userData)
     }
-  }, [session])
+  }, [session, setUser])
 
   return (
     <div className="flex h-[auto] w-full justify-center px-4">

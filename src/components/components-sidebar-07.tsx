@@ -1,7 +1,8 @@
- "use client";
+'use client'
 import Link from 'next/link'
 import * as React from 'react'
-
+import { signOut, useSession } from 'next-auth/react'
+import { useUser } from '@/context/userContext'
 
 import {
   AudioWaveform,
@@ -61,16 +62,12 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from '@/components/ui/sidebar'
-// This is sample data.
+import Image from 'next/image'
+
 const data = {
-  user: {
-    name: 'Nikhil Pulluri',
-    email: 'nikhilpulluri7810@gmail.com',
-    avatar: 'https://github.com/shadcn.png',
-  },
   teams: [
     {
-      name: 'Test',
+      name: 'Mindful AI',
       logo: GalleryVerticalEnd,
       plan: 'Enterprise',
     },
@@ -135,6 +132,13 @@ export default function Sidebar_07({
   children: React.ReactNode
 }>) {
   const [activeTeam, setActiveTeam] = React.useState(data.teams[0])
+  const { user, setUser } = useUser()
+  const { data: session } = useSession()
+
+  const hanlesingout = async () => {
+    await signOut()
+    setUser(null)
+  }
 
   return (
     <SidebarProvider>
@@ -216,29 +220,17 @@ export default function Sidebar_07({
 
         <SidebarFooter>
           <SidebarMenu>
-            {/* <SidebarMenuItem>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <SidebarMenuButton>
-                    <div onClick={ChangeTheme}  className="text-center font-bold">
-                      Change Theme
-                    </div>
-                  </SidebarMenuButton>
-                </DropdownMenuTrigger>
-              </DropdownMenu>
-            </SidebarMenuItem> */}
-
             <SidebarMenuItem>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
                     <Avatar className="h-8 w-8 rounded-lg">
-                      <AvatarImage src={data.user.avatar} alt={data.user.name} />
-                      <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                      {user?.image != null ? <Image src={user.image} width={40} height={40} alt="profile pic" /> : <div>no profile pic</div>}
+                      {/* <AvatarFallback className="rounded-lg">CN</AvatarFallback> */}
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">{data.user.name}</span>
-                      <span className="truncate text-xs">{data.user.email}</span>
+                      <span className="truncate font-semibold">{user?.name}</span>
+                      <span className="truncate text-xs">{user?.email}</span>
                     </div>
                     <ChevronsUpDown className="ml-auto size-4" />
                   </SidebarMenuButton>
@@ -247,39 +239,31 @@ export default function Sidebar_07({
                   <DropdownMenuLabel className="p-0 font-normal">
                     <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                       <Avatar className="h-8 w-8 rounded-lg">
-                        <AvatarImage src={data.user.avatar} alt={data.user.name} />
-                        <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                        {user?.image != null ? <Image src={user.image} width={40} height={40} alt="profile pic" /> : <div>no profile pic</div>}
+                        {/* <AvatarFallback className="rounded-lg">CN</AvatarFallback> */}
                       </Avatar>
                       <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate font-semibold">{data.user.name}</span>
-                        <span className="truncate text-xs">{data.user.email}</span>
+                        <span className="truncate font-semibold">{user?.name}</span>
+                        <span className="truncate text-xs">{user?.email}</span>
                       </div>
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuGroup>
-                    {/* <DropdownMenuItem>
-                      <Sparkles />
-                      Upgrade to Pro
-                    </DropdownMenuItem> */}
-                  </DropdownMenuGroup>
+                  <DropdownMenuGroup></DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
                     <DropdownMenuItem>
                       <BadgeCheck />
                       <Link href="Chat/profile">Account</Link>
                     </DropdownMenuItem>
-                    {/* <DropdownMenuItem>
-                      <CreditCard />
-                      Billing
-                    </DropdownMenuItem> */}
+
                     <DropdownMenuItem>
                       <Bell />
                       Notifications
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={hanlesingout}>
                     <LogOut />
                     Log out
                   </DropdownMenuItem>
