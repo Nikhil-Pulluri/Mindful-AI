@@ -4,8 +4,8 @@ import ProfileSection from './components/ProfileSection'
 import Chats from './components/Chats'
 import { useUser } from '@/context/userContext'
 
-export default function page() {
-  const { user, setUser } = useUser()
+export default function Page() {
+  const { user } = useUser()
   const data = {
     profile: {
       Name: user?.name,

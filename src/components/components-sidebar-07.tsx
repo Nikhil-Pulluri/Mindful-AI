@@ -1,35 +1,12 @@
 'use client'
 import Link from 'next/link'
 import * as React from 'react'
-import { signOut, useSession } from 'next-auth/react'
+import { signOut } from 'next-auth/react'
 import { useUser } from '@/context/userContext'
 
-import {
-  AudioWaveform,
-  BadgeCheck,
-  Bell,
-  BookOpen,
-  Bot,
-  ChevronRight,
-  ChevronsUpDown,
-  Command,
-  CreditCard,
-  Folder,
-  Forward,
-  Frame,
-  GalleryVerticalEnd,
-  LogOut,
-  Map,
-  MoreHorizontal,
-  PieChart,
-  Plus,
-  Settings2,
-  Sparkles,
-  SquareTerminal,
-  Trash2,
-} from 'lucide-react'
+import { BadgeCheck, Bell, BookOpen, ChevronRight, ChevronsUpDown, GalleryVerticalEnd, LogOut, Plus, SquareTerminal } from 'lucide-react'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar } from '@/components/ui/avatar'
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import {
@@ -52,7 +29,6 @@ import {
   SidebarHeader,
   SidebarInset,
   SidebarMenu,
-  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
@@ -133,7 +109,7 @@ export default function Sidebar_07({
 }>) {
   const [activeTeam, setActiveTeam] = React.useState(data.teams[0])
   const { user, setUser } = useUser()
-  const { data: session } = useSession()
+  // const { data: session } = useSession()
 
   const hanlesingout = async () => {
     await signOut()

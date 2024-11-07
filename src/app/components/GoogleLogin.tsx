@@ -11,7 +11,7 @@ import { LogIn } from 'lucide-react'
 export function LoginDialog() {
   const { data: session } = useSession()
   const route = useRouter()
-  const { user, setUser } = useUser()
+  const { setUser } = useUser()
 
   useEffect(() => {
     if (session && session.user) {
