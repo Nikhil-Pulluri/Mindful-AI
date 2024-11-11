@@ -2,6 +2,7 @@ import React from 'react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 // import { Button } from '@/components/ui/button'
+import Image from 'next/image'
 
 type Props = {
   profile: {
@@ -12,6 +13,7 @@ type Props = {
 }
 
 export default function ProfileSection({ profile }: Props) {
+  console.log(profile)
   return (
     <>
       <div className="flex flex-col gap-4 justify-center items-center">
