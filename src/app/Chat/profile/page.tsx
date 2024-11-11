@@ -1,4 +1,5 @@
 'use client'
+
 import React from 'react'
 import ProfileSection from './components/ProfileSection'
 import Chats from './components/Chats'
@@ -12,7 +13,6 @@ export default function Page() {
       Profilepic: user?.image,
       Email: user?.email,
     },
-
     chats: [
       {
         id: 1,
@@ -26,13 +26,18 @@ export default function Page() {
       },
     ],
   }
+
   return (
-    <div className="h-[90.5vh] p-4 flex flex-col mt-6 gap-2 bg-gradient-to-r bg-[#1a1a1a] rounded-md">
-      <div className="h-full grid grid-cols-5 grid-rows-5 gap-2 p-2">
-        <div className="col-span-3 row-span-5 bg-muted/50 p-4 rounded-md shadow-sm">
+    <div className="min-h-[90.5vh] p-2 sm:p-4 flex flex-col mt-2 sm:mt-6 gap-2 bg-gradient-to-r bg-[#1a1a1a] rounded-md">
+      {/* Use flex on smaller screens and grid only on large screens */}
+      <div className="h-full flex flex-col lg:grid lg:grid-cols-5 lg:grid-rows-5 gap-4 p-2">
+        {/* Profile section */}
+        <div className="w-full bg-muted/50 p-2 sm:p-4 rounded-md shadow-sm order-2 lg:order-1 lg:col-span-3 lg:row-span-5">
           <ProfileSection profile={data.profile} />
         </div>
-        <div className="col-start-4 col-span-2 row-span-5 bg-muted/50 rounded-md shadow-sm p-4">
+
+        {/* Chats section */}
+        <div className="w-full bg-muted/50 rounded-md shadow-sm p-2 sm:p-4 order-1 lg:order-2 lg:col-start-4 lg:col-span-2 lg:row-span-5">
           <Chats chats={data.chats} />
         </div>
       </div>

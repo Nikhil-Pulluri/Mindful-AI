@@ -4,9 +4,16 @@ import { useState, useRef, useEffect } from 'react'
 import { Send } from 'lucide-react'
 import MarkdownIt from 'markdown-it'
 import MarkdownItLinkAttributes from 'markdown-it-link-attributes'
+import { useUser } from '@/context/userContext'
+
+function handleName(userName: string) {
+  const ind = userName.indexOf(' ')
+  return ind == -1 ? userName : userName.slice(0, ind)
+}
 
 export default function ChatArea() {
-  const [messages, setMessages] = useState([{ role: 'assistant', content: 'Hi there! How can I help you today?' }])
+  const userData = useUser()
+  const [messages, setMessages] = useState([{ role: 'assistant', content: `Hi ${handleName(userData?.user?.name || '')}! How are you today?` }])
   const [message, setMessage] = useState('')
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
   const chatContainerRef = useRef<HTMLDivElement>(null)
@@ -108,7 +115,7 @@ export default function ChatArea() {
   return (
     <div className="h-[90.5vh] flex flex-col bg-gradient-to-b from-gray-900 to-gray-800 rounded-lg shadow-xl">
       {/* Chat Messages */}
-      <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent">
+      <div ref={chatContainerRef} className="flex-1 overflow-y-auto  p-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent">
         {messages.map((msg, index) => (
           <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[80%] p-3 rounded-lg ${msg.role === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-100'}`}>
