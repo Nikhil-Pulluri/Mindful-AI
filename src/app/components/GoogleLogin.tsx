@@ -1,5 +1,3 @@
-'use client'
-
 import { Button } from '@/components/ui/button'
 import { signIn, useSession } from 'next-auth/react'
 import { useUser } from '@/context/userContext'
