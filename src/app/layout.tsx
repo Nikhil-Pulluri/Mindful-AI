@@ -18,6 +18,8 @@ export default function RootLayout({
   //   setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
   // }
 
+  // for checking build errors
+
   return (
     <SessionWrapper>
       <html lang="en">
