@@ -5,8 +5,6 @@ import { Star, Clock, ArrowLeft } from 'lucide-react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import Link from 'next/link'
 
-// for committing things
-
 interface StarredMessage {
   id: string
   message: string
@@ -28,7 +26,6 @@ export default function StarredChats() {
       timestamp: '2024-03-20 14:31',
       isAI: true,
     },
-    // Add more starred chats as needed
   ]
 
   return (
