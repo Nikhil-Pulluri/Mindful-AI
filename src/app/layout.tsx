@@ -18,7 +18,7 @@ export default function RootLayout({
   //   setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
   // }
 
-  // checking the auth errors again for a hope of working
+  // checking for auth bug again
 
   return (
     <SessionWrapper>
