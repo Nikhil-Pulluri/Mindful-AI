@@ -50,16 +50,21 @@ export default function ChatArea() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify([
-          ...messages,
-          {
-            role: 'user',
-            content: message,
-          },
-        ]),
+        body: JSON.stringify({
+          messages: [
+            ...messages,
+            {
+              role: 'user',
+              content: message,
+            },
+          ],
+        }),
       })
 
-      const text = await response.text()
+      console.log('about to start fetching')
+
+      const data = await response.json()
+      const text = data.message
       const typingDelay = 0.01
 
       const displayCharacter = (index: number) => {
@@ -138,7 +143,13 @@ export default function ChatArea() {
             className="flex-1 bg-transparent text-gray-100 placeholder-gray-400 resize-none max-h-32 p-2 focus:outline-none"
             rows={1}
           />
-          <button onClick={sendMessage} className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+          <button
+            onClick={() => {
+              console.log('sending message')
+              sendMessage()
+            }}
+            className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
             <Send className="h-5 w-5" />
           </button>
         </div>
