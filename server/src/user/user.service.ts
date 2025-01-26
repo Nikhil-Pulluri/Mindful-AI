@@ -1,4 +1,4 @@
-import { Injectable, Get } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -7,7 +7,6 @@ export class UserService {
 
   constructor(private prisma: PrismaService){}
 
-  @Get()
   async getAllUsers() : Promise<User[]> {
     return this.prisma.user.findMany()
   }
