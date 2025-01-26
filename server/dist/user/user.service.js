@@ -16,6 +16,9 @@ let UserService = class UserService {
     constructor(prisma) {
         this.prisma = prisma;
     }
+    async getAllUsers() {
+        return this.prisma.user.findMany();
+    }
     async find_createUser(data) {
         const email = data.email;
         const user = await this.prisma.user.findUnique({
@@ -43,6 +46,12 @@ let UserService = class UserService {
     }
 };
 exports.UserService = UserService;
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UserService.prototype, "getAllUsers", null);
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService])

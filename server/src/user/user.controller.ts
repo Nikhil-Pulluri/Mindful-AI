@@ -7,6 +7,11 @@ import { User } from '@prisma/client';
 export class UserController {
 
   constructor(private userService: UserService) {}
+
+  @Get()
+  async getAllUsers() : Promise<User[]> {
+    return this.userService.getAllUsers();
+  }
   @Post('find-create')
   async find_createUser(
     @Body() body: {name: string, email: string, image? : string} 

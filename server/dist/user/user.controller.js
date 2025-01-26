@@ -20,6 +20,9 @@ let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
+    async getAllUsers() {
+        return this.userService.getAllUsers();
+    }
     async find_createUser(body) {
         return this.userService.find_createUser(body);
     }
@@ -28,6 +31,12 @@ let UserController = class UserController {
     }
 };
 exports.UserController = UserController;
+__decorate([
+    (0, common_2.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getAllUsers", null);
 __decorate([
     (0, common_2.Post)('find-create'),
     __param(0, (0, common_2.Body)()),
