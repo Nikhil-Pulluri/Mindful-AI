@@ -6,10 +6,16 @@ import { Chat } from '@prisma/client';
 export class ChatService {
   constructor(private prisma : PrismaService) {}
 
+
+  async getAllChats() : Promise<Chat[]> {
+    return this.prisma.chat.findMany()
+  }
+
   async getChatsBYId(id :string) : Promise<Chat[]> {
     // id is the id of the user in the user model
     return this.prisma.chat.findMany({
-      where : {id : id}
+      where : {id : id},
+      include : {messages : true}
     })
   }
 
@@ -19,6 +25,14 @@ export class ChatService {
     return this.prisma.chat.create(
       {
         data,
+      }
+    )
+  }
+
+  async deleteChat(id : string) : Promise<Chat> {
+    return this.prisma.chat.delete(
+      {
+        where : {id : id}
       }
     )
   }

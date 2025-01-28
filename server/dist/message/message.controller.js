@@ -12,56 +12,46 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChatController = void 0;
+exports.MessageController = void 0;
 const common_1 = require("@nestjs/common");
-const chat_service_1 = require("./chat.service");
-let ChatController = class ChatController {
-    constructor(chatService) {
-        this.chatService = chatService;
+const message_service_1 = require("./message.service");
+let MessageController = class MessageController {
+    constructor(messageService) {
+        this.messageService = messageService;
     }
-    async getAllchats() {
-        return this.chatService.getAllChats();
+    async getAllChats() {
+        return this.messageService.getAllChats();
     }
-    async getChatsById(id) {
-        return this.chatService.getChatsBYId(id);
+    async updateChat(body) {
+        return this.messageService.updateChat(body.chatId, body.message, body.isUser);
     }
-    async createChat(body) {
-        return this.chatService.createChat(body);
-    }
-    async deleteChat(id) {
-        return this.chatService.deleteChat(id);
+    async getChat(id) {
+        return this.messageService.getChat(id);
     }
 };
-exports.ChatController = ChatController;
+exports.MessageController = MessageController;
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], ChatController.prototype, "getAllchats", null);
+], MessageController.prototype, "getAllChats", null);
+__decorate([
+    (0, common_1.Post)('update'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], MessageController.prototype, "updateChat", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], ChatController.prototype, "getChatsById", null);
-__decorate([
-    (0, common_1.Post)('create'),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], ChatController.prototype, "createChat", null);
-__decorate([
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], ChatController.prototype, "deleteChat", null);
-exports.ChatController = ChatController = __decorate([
-    (0, common_1.Controller)('chat'),
-    __metadata("design:paramtypes", [chat_service_1.ChatService])
-], ChatController);
-//# sourceMappingURL=chat.controller.js.map
+], MessageController.prototype, "getChat", null);
+exports.MessageController = MessageController = __decorate([
+    (0, common_1.Controller)('message'),
+    __metadata("design:paramtypes", [message_service_1.MessageService])
+], MessageController);
+//# sourceMappingURL=message.controller.js.map

@@ -14,12 +14,13 @@ const prisma_service_1 = require("./prisma/prisma.service");
 const prisma_module_1 = require("./prisma/prisma.module");
 const chat_module_1 = require("./chat/chat.module");
 const user_module_1 = require("./user/user.module");
+const message_module_1 = require("./message/message.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule, chat_module_1.ChatModule, user_module_1.UserModule],
+        imports: [prisma_module_1.PrismaModule, chat_module_1.ChatModule, user_module_1.UserModule, message_module_1.MessageModule],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService, prisma_service_1.PrismaService],
     })

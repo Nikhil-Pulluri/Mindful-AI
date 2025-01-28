@@ -9,36 +9,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChatService = void 0;
+exports.MessageService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
-let ChatService = class ChatService {
+let MessageService = class MessageService {
     constructor(prisma) {
         this.prisma = prisma;
     }
     async getAllChats() {
-        return this.prisma.chat.findMany();
+        return this.prisma.message.findMany();
     }
-    async getChatsBYId(id) {
-        return this.prisma.chat.findMany({
-            where: { id: id },
-            include: { messages: true }
+    async updateChat(chatId, message, isUser) {
+        return this.prisma.message.create({
+            data: {
+                chatId: chatId,
+                message: message,
+                isUser: isUser
+            }
         });
     }
-    async createChat(data) {
-        return this.prisma.chat.create({
-            data,
-        });
-    }
-    async deleteChat(id) {
-        return this.prisma.chat.delete({
-            where: { id: id }
+    async getChat(chatId) {
+        return this.prisma.message.findMany({
+            where: {
+                chatId: chatId
+            }
         });
     }
 };
-exports.ChatService = ChatService;
-exports.ChatService = ChatService = __decorate([
+exports.MessageService = MessageService;
+exports.MessageService = MessageService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService])
-], ChatService);
-//# sourceMappingURL=chat.service.js.map
+], MessageService);
+//# sourceMappingURL=message.service.js.map

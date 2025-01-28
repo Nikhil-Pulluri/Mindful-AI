@@ -12,6 +12,8 @@ export class UserController {
   async getAllUsers() : Promise<User[]> {
     return this.userService.getAllUsers();
   }
+
+
   @Post('find-create')
   async find_createUser(
     @Body() body: {name: string, email: string, image? : string} 
