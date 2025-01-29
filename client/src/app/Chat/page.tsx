@@ -1,11 +1,11 @@
-import ChatArea from "./components/ChatArea";
+import ChatArea from './components/ChatArea'
 
 export default function Home() {
   return (
-   <>
-   <div>
-    <ChatArea/>
-   </div>
-   </>
-  );
+    <>
+      <div>
+        <ChatArea />
+      </div>
+    </>
+  )
 }

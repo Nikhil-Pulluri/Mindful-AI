@@ -18,6 +18,8 @@ export default function ChatArea() {
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
   const chatContainerRef = useRef<HTMLDivElement>(null)
 
+  const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL
+
   // Initialize markdown parser
   const md = new MarkdownIt({
     html: true,
@@ -38,10 +40,60 @@ export default function ChatArea() {
     }
   }, [messages])
 
+  const fetchChat = async () => {
+    try {
+      if (!userData?.user?.email) return
+      const userD = await fetch(`${backendURL}/user/email/${userData?.user?.email}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      const userdatajson = await userD.json()
+
+      console.log(userdatajson)
+
+      const response = await fetch(`${backendURL}/chat/${userdatajson.id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      // if (!response.ok) {
+      //   console.error(`Failed to fetch chat data: ${response.status} ${response.statusText}`)
+      //   return
+      // }
+
+      const data: any = await response.json()
+      console.log(data)
+      console.log(data[0].messages)
+      const texts = data[0].messages.map((msg: any) => ({ role: msg.role, content: msg.content }))
+      console.log(texts)
+
+      setMessages(texts)
+    } catch (error) {
+      console.error('Error in Chat:', error)
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: 'Sorry, something went wrong. Please try again.',
+        },
+      ])
+    }
+  }
+
+  useEffect(() => {
+    fetchChat() // Fetch chat history on component mount
+  }, [])
+
   const sendMessage = async () => {
     if (!message.trim()) return
 
     setMessage('')
+
     setMessages((prev) => [...prev, { role: 'user', content: message }, { role: 'assistant', content: '' }])
 
     try {
