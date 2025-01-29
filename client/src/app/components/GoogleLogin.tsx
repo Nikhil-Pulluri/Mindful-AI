@@ -6,26 +6,67 @@ import { useEffect } from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { LogIn } from 'lucide-react'
 
+type User = {
+  name: string
+  email: string
+  image: string
+}
+
 export function LoginDialog() {
   const { data: session } = useSession()
-  const route = useRouter()
+  const router = useRouter()
   const { setUser } = useUser()
+  const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL
 
   useEffect(() => {
     if (session && session.user) {
-      const userData = {
+      const userData: User = {
         name: session.user.name ?? '',
         email: session.user.email ?? '',
         image: session.user.image ?? '',
       }
 
-      console.log(session)
-
+      // Save user data in the context
       setUser(userData)
 
-      route.push('/Chat')
+      // Sync with the backend
+      syncUserWithBackend(userData).then(() => {
+        router.push('/Chat')
+      })
     }
-  }, [session, setUser])
+  }, [session, setUser, router])
+
+  async function syncUserWithBackend(userData: User): Promise<void> {
+    try {
+      console.log(backendURL, userData)
+      const response = await fetch(`${backendURL}/user/find-create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      })
+
+      if (!response.ok) {
+        throw new Error(`Backend error: ${response.statusText}`)
+      }
+
+      const backendUser = await response.json()
+      console.log('User synced with backend:', backendUser)
+    } catch (error) {
+      console.error('Error syncing user with backend:', error)
+    }
+  }
+
+  async function handleSignIn(provider: string) {
+    try {
+      // Trigger the sign-in flow
+      await signIn(provider)
+    } catch (error) {
+      console.error('Error during sign-in:', error)
+    }
+  }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -40,7 +81,7 @@ export function LoginDialog() {
           <DialogDescription>Sign in to continue your therapy journey</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4 py-4">
-          <Button onClick={() => signIn()} className="gap-2" variant="outline">
+          <Button onClick={() => handleSignIn('google')} className="gap-2" variant="outline">
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
               <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
