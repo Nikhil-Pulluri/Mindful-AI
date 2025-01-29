@@ -4,12 +4,15 @@ export declare class MessageService {
     private prisma;
     constructor(prisma: PrismaService);
     getAllChats(): Promise<Message[]>;
-    updateChat(chatId: string, message: string, isUser: boolean): Promise<{
-        message: string;
+    updateChat(chatId: string, content: string, role: string): Promise<{
         id: string;
         chatId: string;
-        isUser: boolean;
+        content: string;
+        role: string;
         timestamp: Date;
     }>;
-    getChat(chatId: string): Promise<Message[]>;
+    getChat(chatId: string): Promise<{
+        role: string;
+        content: string;
+    }[]>;
 }

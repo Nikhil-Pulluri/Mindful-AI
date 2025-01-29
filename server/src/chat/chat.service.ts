@@ -13,8 +13,9 @@ export class ChatService {
 
   async getChatsBYId(id :string) : Promise<Chat[]> {
     // id is the id of the user in the user model
+    console.log("chat is called")
     return this.prisma.chat.findMany({
-      where : {id : id},
+      where : { userId: id},
       include : {messages : true}
     })
   }

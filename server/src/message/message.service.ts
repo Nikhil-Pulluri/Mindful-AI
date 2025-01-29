@@ -10,26 +10,45 @@ export class MessageService {
     return this.prisma.message.findMany()
   }
 
-  async updateChat(chatId : string, message: string, isUser : boolean)
+  async updateChat(chatId : string, content: string, role: string)
   {
     return this.prisma.message.create(
       {
         data: {
           chatId: chatId,
-          message: message,
-          isUser: isUser
+          content: content,
+          role: role
         }
       }
     )
   }
 
-  async getChat(chatId : string) : Promise<Message[]> {
-    return this.prisma.message.findMany(
-      {
-        where: {
-          chatId: chatId
-        }
-      }
-    )
+  // async getChat(chatId : string) : Promise<Message[]> {
+  //   return this.prisma.message.findMany(
+  //     {
+  //       where: {
+  //         chatId: chatId
+  //       }
+  //     }
+  //   )
+  // }
+
+
+  async getChat(chatId: string): Promise<{ role: string; content: string }[]> {
+    const messages = await this.prisma.message.findMany({
+      where: {
+        chatId: chatId,
+      },
+      orderBy: {
+        timestamp: 'asc', // Ensure messages are sorted by creation time
+      },
+    });
+  
+    // Map the database messages to the required structure
+    return messages.map((message) => ({
+      role: message.role === 'user' ? 'user' : 'assistant', // Map sender to 'role'
+      content: message.content, // Use content directly
+    }));
   }
+  
 }

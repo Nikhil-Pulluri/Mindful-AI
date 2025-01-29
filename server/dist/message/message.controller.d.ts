@@ -6,8 +6,11 @@ export declare class MessageController {
     getAllChats(): Promise<Message[]>;
     updateChat(body: {
         chatId: string;
-        message: string;
-        isUser: boolean;
+        content: string;
+        role: string;
     }): Promise<Message>;
-    getChat(id: string): Promise<Message[]>;
+    getChat(id: string): Promise<{
+        role: string;
+        content: string;
+    }[]>;
 }

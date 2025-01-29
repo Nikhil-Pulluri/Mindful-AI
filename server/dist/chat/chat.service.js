@@ -20,8 +20,9 @@ let ChatService = class ChatService {
         return this.prisma.chat.findMany();
     }
     async getChatsBYId(id) {
+        console.log("chat is called");
         return this.prisma.chat.findMany({
-            where: { id: id },
+            where: { userId: id },
             include: { messages: true }
         });
     }

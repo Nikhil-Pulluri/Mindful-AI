@@ -19,21 +19,28 @@ let MessageService = class MessageService {
     async getAllChats() {
         return this.prisma.message.findMany();
     }
-    async updateChat(chatId, message, isUser) {
+    async updateChat(chatId, content, role) {
         return this.prisma.message.create({
             data: {
                 chatId: chatId,
-                message: message,
-                isUser: isUser
+                content: content,
+                role: role
             }
         });
     }
     async getChat(chatId) {
-        return this.prisma.message.findMany({
+        const messages = await this.prisma.message.findMany({
             where: {
-                chatId: chatId
-            }
+                chatId: chatId,
+            },
+            orderBy: {
+                timestamp: 'asc',
+            },
         });
+        return messages.map((message) => ({
+            role: message.role === 'user' ? 'user' : 'assistant',
+            content: message.content,
+        }));
     }
 };
 exports.MessageService = MessageService;

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
+import { error } from 'console';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -26,6 +27,7 @@ export class UserService {
 
     else 
     {
+      console.log("User creation called")
       return this.prisma.user.create(
         {data,
         }
@@ -34,9 +36,28 @@ export class UserService {
   }
 
 
-  async findUserById(id: string) : Promise<User> {
-    const user = await this.prisma.user.findUnique({
-      where: {id : id}
+  // async findUserById(id: string) : Promise<User> {
+  //   const user = await this.prisma.user.findUnique({
+  //     where: {id : id}
+  //   })
+
+  //   if(user)
+  //   {
+  //     return user;
+  //   }
+
+  //   else 
+  //   {
+  //     throw new Error("User Not found")
+  //   }
+  // }
+
+
+  async findUserByEmail(email : string) : Promise<User> {
+    console.log("User by email called")
+    const user =  this.prisma.user.findUnique({
+      where: {email : email},
+      include: {chats: true},
     })
 
     if(user)
@@ -44,10 +65,7 @@ export class UserService {
       return user;
     }
 
-    else 
-    {
-      throw new Error("User Not found")
-    }
+    else throw error("User not found")
   }
 
 

@@ -15,17 +15,17 @@ export class MessageController {
   async updateChat(
     @Body() body : {
       chatId : string,
-      message: string,
-      isUser : boolean
+      content: string,
+      role: string
     }
   ) : Promise<Message> {
-    return this.messageService.updateChat(body.chatId, body.message, body.isUser)
+    return this.messageService.updateChat(body.chatId, body.content, body.role)
   }
 
   @Get(':id')
   async getChat(
     @Param('id') id : string 
-  ) : Promise<Message[]> {
+  ) : Promise<{role : string ; content : string}[]> {
     return this.messageService.getChat(id)
   }
 }

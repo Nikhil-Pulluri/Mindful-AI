@@ -37,7 +37,7 @@ model Message {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   chatId    String   @db.ObjectId
   chat      Chat     @relation(fields: [chatId], references: [id])
-  message   String // Message content
-  isUser    Boolean // Indicates if the message was sent by the user
+  content   String // Message content
+  role      String // Indicates if the message was sent by the user
   timestamp DateTime @default(now())
 }

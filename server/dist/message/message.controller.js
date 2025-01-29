@@ -23,7 +23,7 @@ let MessageController = class MessageController {
         return this.messageService.getAllChats();
     }
     async updateChat(body) {
-        return this.messageService.updateChat(body.chatId, body.message, body.isUser);
+        return this.messageService.updateChat(body.chatId, body.content, body.role);
     }
     async getChat(id) {
         return this.messageService.getChat(id);

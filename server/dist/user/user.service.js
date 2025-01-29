@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
+const console_1 = require("console");
 const prisma_service_1 = require("../prisma/prisma.service");
 let UserService = class UserService {
     constructor(prisma) {
@@ -29,20 +30,22 @@ let UserService = class UserService {
             return user;
         }
         else {
+            console.log("User creation called");
             return this.prisma.user.create({ data,
             });
         }
     }
-    async findUserById(id) {
-        const user = await this.prisma.user.findUnique({
-            where: { id: id }
+    async findUserByEmail(email) {
+        console.log("User by email called");
+        const user = this.prisma.user.findUnique({
+            where: { email: email },
+            include: { chats: true },
         });
         if (user) {
             return user;
         }
-        else {
-            throw new Error("User Not found");
-        }
+        else
+            throw (0, console_1.error)("User not found");
     }
 };
 exports.UserService = UserService;

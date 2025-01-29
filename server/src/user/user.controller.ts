@@ -22,12 +22,19 @@ export class UserController {
   }
 
 
-  @Get(':id')
-  async findUserById(
-    @Param('id') id: string
-  ) : Promise<User>
-  {
-    return this.userService.findUserById(id)
+  // @Get(':id')
+  // async findUserById(
+  //   @Param('id') id: string
+  // ) : Promise<User>
+  // {
+  //   return this.userService.findUserById(id)
+  // }
+
+  @Get('email/:email')
+  async findUserByEmail(
+    @Param('email') email : string 
+  ) : Promise<User> {
+    return this.userService.findUserByEmail(email)
   }
 
 }

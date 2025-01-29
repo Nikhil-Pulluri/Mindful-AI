@@ -9,5 +9,5 @@ export declare class UserService {
         email: string;
         image?: string;
     }): Promise<User>;
-    findUserById(id: string): Promise<User>;
+    findUserByEmail(email: string): Promise<User>;
 }

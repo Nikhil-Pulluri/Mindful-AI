@@ -26,8 +26,8 @@ let UserController = class UserController {
     async find_createUser(body) {
         return this.userService.find_createUser(body);
     }
-    async findUserById(id) {
-        return this.userService.findUserById(id);
+    async findUserByEmail(email) {
+        return this.userService.findUserByEmail(email);
     }
 };
 exports.UserController = UserController;
@@ -45,12 +45,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "find_createUser", null);
 __decorate([
-    (0, common_2.Get)(':id'),
-    __param(0, (0, common_2.Param)('id')),
+    (0, common_2.Get)('email/:email'),
+    __param(0, (0, common_2.Param)('email')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], UserController.prototype, "findUserById", null);
+], UserController.prototype, "findUserByEmail", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)('user'),
     __metadata("design:paramtypes", [user_service_1.UserService])
