@@ -20,6 +20,7 @@ let MessageService = class MessageService {
         return this.prisma.message.findMany();
     }
     async updateChat(chatId, content, role) {
+        console.log("update chat called");
         return this.prisma.message.create({
             data: {
                 chatId: chatId,

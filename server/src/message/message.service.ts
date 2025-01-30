@@ -12,6 +12,7 @@ export class MessageService {
 
   async updateChat(chatId : string, content: string, role: string)
   {
+    console.log("update chat called")
     return this.prisma.message.create(
       {
         data: {
