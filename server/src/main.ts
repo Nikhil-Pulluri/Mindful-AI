@@ -6,7 +6,7 @@ async function bootstrap() {
 
   // Enable CORS
   app.enableCors({
-    origin: 'https://mindful-ai-rosy.vercel.app/', // Replace '*' with your frontend URL for better security
+    origin: 'https://mindful-ai-rosy.vercel.app', // Replace '*' with your frontend URL for better security
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
     credentials: true, // Set to true if cookies need to be included
