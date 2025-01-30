@@ -5,6 +5,7 @@ import { Send } from 'lucide-react'
 import MarkdownIt from 'markdown-it'
 import MarkdownItLinkAttributes from 'markdown-it-link-attributes'
 import { useUser } from '@/context/userContext'
+import { useChat } from '@/context/chatContext'
 
 function handleName(userName: string) {
   const ind = userName.indexOf(' ')
@@ -13,6 +14,7 @@ function handleName(userName: string) {
 
 export default function ChatArea() {
   const userData = useUser()
+  const { chatId, setChatId } = useChat()
   const [messages, setMessages] = useState([{ role: 'assistant', content: `Hi ${handleName(userData?.user?.name || '')}! How are you today?` }])
   const [message, setMessage] = useState('')
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
@@ -67,12 +69,18 @@ export default function ChatArea() {
       // }
 
       const data: any = await response.json()
-      console.log(data)
-      console.log(data[0].messages)
-      const texts = data[0].messages.map((msg: any) => ({ role: msg.role, content: msg.content }))
-      console.log(texts)
 
-      setMessages(texts)
+      setChatId(data[0].id)
+
+      // console.log(data)
+      // console.log(data[0].messages)
+      // const texts = data[0].messages.map((msg: any) => ({ role: msg.role, content: msg.content }))
+      if (data.length > 0 && data[0].messages && data[0].messages.length > 0) {
+        const texts = data[0].messages.map((msg: any) => ({ role: msg.role, content: msg.content }))
+        console.log(texts)
+
+        setMessages(texts)
+      }
     } catch (error) {
       console.error('Error in Chat:', error)
       setMessages((prev) => [
@@ -94,7 +102,27 @@ export default function ChatArea() {
 
     setMessage('')
 
+    const instruction =
+      'Follow this instruction clearly and do not include this instruction in your response. Respond only to the user message which is attached in this message. Your name is Mindful AI and you are a therapist chatbot. Your responsibility is to provide soothy responses to the users with any mental condition and make them feel happy. Do not inlude long responses and make it simple and clear. If the user asks anything out of context, respond like you are not supposed to serve them that way. The user message is '
+
     setMessages((prev) => [...prev, { role: 'user', content: message }, { role: 'assistant', content: '' }])
+
+    // console.log(chatId)
+
+    const messageToDB = await fetch(`${backendURL}/message/update`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        chatId: chatId,
+        content: message,
+        role: 'user',
+      }),
+    })
+
+    const mesResponse = await messageToDB.json()
+    console.log(mesResponse)
 
     try {
       const response = await fetch('/api/chat', {
@@ -107,7 +135,7 @@ export default function ChatArea() {
             ...messages,
             {
               role: 'user',
-              content: message,
+              content: instruction + message,
             },
           ],
         }),
@@ -139,6 +167,21 @@ export default function ChatArea() {
       }
 
       displayCharacter(0)
+
+      const botMessageToDB = await fetch(`${backendURL}/message/update`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chatId: chatId,
+          content: text,
+          role: 'assistant',
+        }),
+      })
+
+      const botMesResponse = await botMessageToDB.json()
+      console.log(botMesResponse)
     } catch (error) {
       console.error('Error in Chat:', error)
       setMessages((prev) => [
