@@ -13,27 +13,37 @@ exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
 const console_1 = require("console");
 const prisma_service_1 = require("../prisma/prisma.service");
+const chat_service_1 = require("../chat/chat.service");
 let UserService = class UserService {
-    constructor(prisma) {
+    constructor(prisma, chatService) {
         this.prisma = prisma;
+        this.chatService = chatService;
     }
     async getAllUsers() {
         return this.prisma.user.findMany();
     }
     async find_createUser(data) {
         const email = data.email;
-        const user = await this.prisma.user.findUnique({
-            where: { email: email }
+        const existingUser = await this.prisma.user.findUnique({
+            where: { email },
         });
-        if (user) {
+        if (existingUser) {
             console.log('User already exists');
-            return user;
+            return existingUser;
         }
-        else {
-            console.log("User creation called");
-            return this.prisma.user.create({ data,
+        const newUser = await this.prisma.user.create({
+            data,
+        });
+        try {
+            await this.chatService.createChat({
+                userId: newUser.id,
+                chatTitle: 'General Chat',
             });
         }
+        catch (error) {
+            console.error('Error creating chat for user:', error);
+        }
+        return newUser;
     }
     async findUserByEmail(email) {
         console.log("User by email called");
@@ -51,6 +61,7 @@ let UserService = class UserService {
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        chat_service_1.ChatService])
 ], UserService);
 //# sourceMappingURL=user.service.js.map
