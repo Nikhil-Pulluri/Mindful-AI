@@ -68,7 +68,8 @@ export default function ChatArea() {
       //   return
       // }
 
-      const data: any = await response.json()
+      const data: { id: string; chatTitle: string; userId: string; createdAt: Date; messages: { id: string; chatId: string; content: string; role: string; timestamp: Date }[] }[] =
+        await response.json()
 
       setChatId(data[0].id)
 
@@ -76,7 +77,7 @@ export default function ChatArea() {
       // console.log(data[0].messages)
       // const texts = data[0].messages.map((msg: any) => ({ role: msg.role, content: msg.content }))
       if (data.length > 0 && data[0].messages && data[0].messages.length > 0) {
-        const texts = data[0].messages.map((msg: any) => ({ role: msg.role, content: msg.content }))
+        const texts = data[0].messages.map((msg) => ({ role: msg.role, content: msg.content }))
         console.log(texts)
 
         setMessages(texts)
