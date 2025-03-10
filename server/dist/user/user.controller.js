@@ -16,6 +16,7 @@ exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const common_2 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
+const swagger_1 = require("@nestjs/swagger");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -33,12 +34,17 @@ let UserController = class UserController {
 exports.UserController = UserController;
 __decorate([
     (0, common_2.Get)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Get all users' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Successful response', type: Object }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getAllUsers", null);
 __decorate([
     (0, common_2.Post)('find-create'),
+    (0, swagger_1.ApiOperation)({ summary: 'Find or create a user' }),
+    (0, swagger_1.ApiBody)({ description: 'User creation or search payload', type: Object }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: 'User created or found successfully', type: Object }),
     __param(0, (0, common_2.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -46,12 +52,16 @@ __decorate([
 ], UserController.prototype, "find_createUser", null);
 __decorate([
     (0, common_2.Get)('email/:email'),
+    (0, swagger_1.ApiOperation)({ summary: 'Find user by email' }),
+    (0, swagger_1.ApiParam)({ name: 'email', type: String, description: 'The email of the user' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Successful response', type: Object }),
     __param(0, (0, common_2.Param)('email')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findUserByEmail", null);
 exports.UserController = UserController = __decorate([
+    (0, swagger_1.ApiTags)('user'),
     (0, common_1.Controller)('user'),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);

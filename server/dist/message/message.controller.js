@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessageController = void 0;
 const common_1 = require("@nestjs/common");
 const message_service_1 = require("./message.service");
+const swagger_1 = require("@nestjs/swagger");
 let MessageController = class MessageController {
     constructor(messageService) {
         this.messageService = messageService;
@@ -32,12 +33,17 @@ let MessageController = class MessageController {
 exports.MessageController = MessageController;
 __decorate([
     (0, common_1.Get)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Get all messages' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Successful response', type: Object }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], MessageController.prototype, "getAllChats", null);
 __decorate([
     (0, common_1.Post)('update'),
+    (0, swagger_1.ApiOperation)({ summary: 'Update a message' }),
+    (0, swagger_1.ApiBody)({ description: 'Message update payload', type: Object }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Message updated successfully', type: Object }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -45,12 +51,16 @@ __decorate([
 ], MessageController.prototype, "updateChat", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    (0, swagger_1.ApiOperation)({ summary: 'Get message by chat ID' }),
+    (0, swagger_1.ApiParam)({ name: 'id', type: String, description: 'The ID of the chat' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Successful response', type: Object }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], MessageController.prototype, "getChat", null);
 exports.MessageController = MessageController = __decorate([
+    (0, swagger_1.ApiTags)('message'),
     (0, common_1.Controller)('message'),
     __metadata("design:paramtypes", [message_service_1.MessageService])
 ], MessageController);

@@ -1,13 +1,12 @@
 import { UserService } from './user.service';
-import { User } from '@prisma/client';
 export declare class UserController {
     private userService;
     constructor(userService: UserService);
-    getAllUsers(): Promise<User[]>;
+    getAllUsers(): Promise<Object[]>;
     find_createUser(body: {
         name: string;
         email: string;
         image?: string;
-    }): Promise<User>;
-    findUserByEmail(email: string): Promise<User>;
+    }): Promise<Object>;
+    findUserByEmail(email: string): Promise<Object>;
 }
