@@ -1,6 +1,6 @@
-# Chatbot Application with NestJS, Prisma, MongoDB, and Next.js
+# Mindful AI, a chatbot Application with NestJS, Prisma, MongoDB, and Next.js
 
-This is a chatbot application integrated with a backend built using **NestJS** to handle chat and user data. The chats and user data are stored in **MongoDB** using the **Prisma ORM**. The frontend is built using **Next.js** with **NextAuth** and **Google Authentication** to manage users.
+This is a therapist chatbot application integrated with a backend built using **NestJS** to handle chat and user data. The chats and user data are stored in **MongoDB** using the **Prisma ORM**. The frontend is built using **Next.js** with **NextAuth** and **Google Authentication** to manage users.
 
 ## Table of Contents
 
@@ -13,7 +13,7 @@ This is a chatbot application integrated with a backend built using **NestJS** t
 
 ## Project Description
 
-This project is a **chatbot** that interacts with users. The **backend** (NestJS) handles the following:
+This project is a **chatbot** that interacts with users with mentally challenged people. The **backend** (NestJS) handles the following:
 
 - **User management**: Users can be created, and their data (including email and name) is stored in **MongoDB** using **Prisma** ORM.
 - **Chat management**: Chats are stored and managed in the backend. Users can create, delete, and fetch chats.
